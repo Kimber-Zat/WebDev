@@ -1,0 +1,9 @@
+Purpose:
+I'd like to be able to easily share my ability to create databases with others, either by making databases for people based on information they give me, or by teaching them how to create their own databases.
+I think it would be really fun to do this because I love being able to spend time making databases for myself and others. I think this could also help me learn how to manage databases which could be really helpful for jobs.
+
+
+Audience:
+I believe my audience could be anyone, but those who have a knack for organized data through tables and spreadsheets.
+I would imagine these people would have one of two objectives: either wanting to learn to make their own databases, or wanting to have someone make a database for them.
+I think my site would be accessed the most via a large screen like a laptop or desktop.
