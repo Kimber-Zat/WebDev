@@ -18,15 +18,15 @@ Fonts are separated by a & */
   --paragraph-font: "Pochaevsk", serif, Helvetica, sans-serif;
 
   /* TODO: Week02 - these colors below should be chosen from among your palette colors above */
-  --headline-color-on-white: #396e94; /* headlines on a white background */
+  --headline-color-on-white: #104547; /* headlines on a white background */
   --headline-color-on-color: white; /* headlines on a colored background */
-  --paragraph-color-on-white: #396e94; /* paragraph text on a white background */
+  --paragraph-color-on-white: #104547; /* paragraph text on a white background */
   --paragraph-color-on-color: white; /* paragraph text on a colored background */
   --paragraph-background-color: #396e94;
-  --nav-link-color: #396e94;
-  --nav-background-color: #d4ac0d;
+  --nav-link-color: #8fa998;
+  --nav-background-color: #7e6551;
   --nav-hover-link-color: white;
-  --nav-hover-background-color: #396e94;
+  --nav-hover-background-color: #8fa998;
   /* TODO: Week02 - test out your colors using by viewing your html and interacting with it. Make sure the contrast is enough that things can be easily read*/
 }
 
