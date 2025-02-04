@@ -7,3 +7,8 @@ Audience:
 I believe my audience could be anyone, but those who have a knack for organized data through tables and spreadsheets.
 I would imagine these people would have one of two objectives: either wanting to learn to make their own databases, or wanting to have someone make a database for them.
 I think my site would be accessed the most via a large screen like a laptop or desktop.
+
+. in css = class
+# in css = id
+[] in css = attribute
+_ (space) in css = decendant selector
