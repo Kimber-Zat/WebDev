@@ -10,7 +10,7 @@ Fonts are separated by a & */
   --primary-color: #104547;
   --secondary-color: #7e6551;
   --accent1-color: #8fa998;
-  --accent2-color: #1e91d6;
+  --accent2-color: #3C779C;
 
   /* TODO: Week02 - change the values below to your chosen font(s). */
   /* TODO: Week02 - make sure you provide more than one font option for each to handle fallback */
@@ -24,7 +24,7 @@ Fonts are separated by a & */
   --paragraph-color-on-color: white; /* paragraph text on a colored background */
   --paragraph-background-color: #7e6551;
   --nav-link-color: white;
-  --nav-background-color: #1e91d6;
+  --nav-background-color: #3C779C;
   --nav-hover-link-color: white;
   --nav-hover-background-color: #8fa998;
   /* TODO: Week02 - test out your colors using by viewing your html and interacting with it. Make sure the contrast is enough that things can be easily read*/
