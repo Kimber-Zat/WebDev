@@ -1,118 +1,141 @@
+@import url("https://fonts.googleapis.com/css2?family=IM+Fell+French+Canon&family=Lato:ital,wght@0,400;0,700;1,400&display=swap&family=Pochaevsk&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap");
+
+:root{
+    --heading-font: "Roboto Condensed", serif, "IM Fell French Canon";
+    --paragraph-font: "Pochaevsk", serif, Helvetica, sans-serif;}
+
+h1, h2, h3, h4{
+    font-family: var(--heading-font);}
+
+h2{
+    margin: 0;}
+
 body{
     background-color: #8fa998;
-}
+    font-family: var(--paragraph-font);
+    margin: 0;
+    padding: 0;}
 
 #content{
     max-width: 1600px;
-    margin: 0 auto;
-}
+    margin: 0 auto;}
 
 .logo{
-    width: 80px;
-}
+    width: 80px;}
 
 header{
-    background-color: #104547;
-}
+    background-color: #104547;}
 
 nav a{
     text-align: center;
     color:#FAF9F6;
     text-decoration: none;
-}
+    padding: 35px;}
 
 nav a:hover {
     background-color: #3c779c50;
-    color:#000000;
-}
+    color:#000000;}
 
 .home-title{
     background-color:#71857850;
     color:#5b493b;
-}
+    font-size: 2em;
+    margin-top: 10px;}
 
 #hero-img{
-    width: 100%;
-}
+    width: 100%;}
 
 #hero-msg h1{
-    text-align: center;
-}
+    text-align: center;}
 
 #hero-msg h4{
     text-align: center;
-    color: #705a49;
-}
+    color: #705a49;}
 
 .button-box{
-    text-align: center;
-}
+    text-align: center;}
 
 .icon{
     width: 80px;
-}
+    padding-top: 10px;}
 
 .book{
     background-color: #8fa998;
     color: #2c2c2c;
     text-decoration: none;
-}
+    font-size: 18px;
+    padding: 15px 30px;
+    margin-top: 50px;
+    border-radius: 5px;}
 
 .book:hover{
     background-color: #3C779C;
-    color: #c6c5c3;
-}
+    color: #c6c5c3;}
 
 main section{
-    text-align: center;
-}
+    text-align: center;}
 
 .join{
     background-color: #584738;
     color: #c6c5c3;
     text-decoration: none;
-}
+    font-size: 18px;
+    padding: 15px 30px;
+    margin-top: 50px;
+    border-radius: 5px;}
 
 .join:hover{
     background-color: #3C779C;
-    color:#2c2c2c
-}
+    color:#2c2c2c}
 
 #background{
     height: 725px;
-    background-color: #5b493b;
-}
+    background-color: #5b493b;}
 
 .msg{
     background-color: #584738;
-}
+    line-height: 1.5em;
+    padding: 35px;}
 
 .msg h2{
-    color: #c6c5c3;
-}
+    color: #c6c5c3;}
 
 .msg p{
     color: #faf9f6;
-}
+    font-size: .8em;
+    padding-bottom: 15px;}
 
 footer{
     background-color: #104547;
-    color:#b4b4b4
-}
+    color:#b4b4b4;
+    padding: 25px 50px;
+    margin-top: 200px;}
+
 footer p{
-    font-size: 1.2em;
-}
+    font-size: 1.2em;}
 
 footer p a:hover{
-    text-decoration: underline;
-}
+    text-decoration: underline;}
 
 footer a{
     color: #b4b4b4;
-    text-decoration: none;
-}
+    text-decoration: none;}
 
 footer a:hover{
     color:#3C779C;
-    text-decoration: underline;
-}
+    text-decoration: underline;}
+
+#logo_link{
+    padding-top: 5px;}
+
+footer .social img{
+    padding-top: 15px;}
+
+.rivers-card, .camping-card, .rapids-card{
+    margin: 200px 0;}
+
+.card-img {
+    border: 10px solid #d9c2a3;}
+
+main section img {
+    box-sizing: border-box;}
