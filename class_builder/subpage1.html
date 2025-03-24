@@ -49,15 +49,15 @@
 
             const uniqueCourses = new Set();
             courseData.forEach((item) => {
-                const courseKey = `${item.Title} (${item.Subject} ${item.Number})`;
+                const courseKey = `${item[1].Title} (${item[1].Subject} ${item[1].Number})`;
                 if (!uniqueCourses.has(courseKey) && (filter === '' || courseKey.toLowerCase().includes(filter.toLowerCase()))) {
                     uniqueCourses.add(courseKey);
 
                     const div = document.createElement('div');
                     const course = document.createElement('span');
-                    course.textContent = `(${item.Subject} ${item.Number}) `;
+                    course.textContent = `(${item[1].Subject} ${item[1].Number}) `;
                     const title = document.createElement('span');
-                    title.textContent = `${item.Title} `;
+                    title.textContent = `${item[1].Title} `;
                     const info = document.createElement('button');
                     info.textContent = 'More Info';
                     info.addEventListener('click', function() {

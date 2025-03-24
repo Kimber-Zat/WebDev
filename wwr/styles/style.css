@@ -26,8 +26,8 @@ body{
 
 header{
     background-color: #104547;
-display: grid;
-grid-template-columns: 150px auto;}
+    display: grid;
+    grid-template-columns: 150px auto;}
 
 nav {
     display: flex;
