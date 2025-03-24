@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <p id="storedIndex"></p>
+    <p id="jsonData"></p>
+
+    <script>
+        const storedIndex = localStorage.getItem('index');
+        if (storedIndex !== null) {
+            document.getElementById('storedIndex').textContent = 'Stored index: ' + storedIndex;
+
+            fetch('data2.json')
+                .then(response => response.json())
+                .then(data => {
+                    const item = data[storedIndex];
+                    if (item) {
+                        document.getElementById('jsonData').textContent = `Subject: ${item.Subject}, Title: ${item.Title}`;
+                    } else {
+                        document.getElementById('jsonData').textContent = 'No data found for the stored index.';
+                    }
+                })
+                .catch(error => console.error('Error loading JSON data:', error));
+        } else {
+            document.getElementById('storedIndex').textContent = 'No index stored in local storage.';
+        }
+    </script>
+</body>
+</html>

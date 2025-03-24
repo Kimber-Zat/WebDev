@@ -12,3 +12,10 @@ I think my site would be accessed the most via a large screen like a laptop or d
 # in css = id
 [] in css = attribute
 _ (space) in css = decendant selector
+
+
+How to get page 2 to display every individual class?
+Single page application
+Individual HTML for every class (best if I'm only doing a few classes)
+
+Loop through and create an array based on subject and course number

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button id="storeIndexButton">Store Index</button>
+
+    <input type="text" id="courseFilter" placeholder="Enter Title or Course Number">
+    <button id="clearFilter">Clear</button>
+
+    <div id="courseContainer"></div>
+
+    <script>
+        document.getElementById('storeIndexButton').addEventListener('click', function() {
+            const index = 1; // Example index storage
+            localStorage.setItem('index', index);
+            alert('Index stored in local storage: ' + index);
+        });
+
+        let courseData = []; // Store data globally for filtering
+
+        window.addEventListener('load', function() {
+            fetch('data2.json')
+                .then(response => response.json())
+                .then(data => {
+                    // Sort data by course number and subject
+                    const entries = Object.entries(data);
+                    // Sort by Subject then Number
+                    entries.sort((a, b) => {
+                        if (a[1].Subject === b[1].Subject) {
+                        return a[1].Number.localeCompare(b[1].Number);
+                        }
+                        return a[1].Subject.localeCompare(b[1].Subject);
+                    });
+
+
+                    courseData = entries; // Store for filtering
+                    displayCourses();  // Initial display
+                })
+                .catch(error => console.error('Error loading JSON data:', error));
+        });
+
+        function displayCourses(filter = '') {
+            const courseContainer = document.getElementById('courseContainer');
+            courseContainer.innerHTML = ''; // Clear existing courses
+
+            const uniqueCourses = new Set();
+            courseData.forEach((item) => {
+                const courseKey = `${item.Title} (${item.Subject} ${item.Number})`;
+                if (!uniqueCourses.has(courseKey) && (filter === '' || courseKey.toLowerCase().includes(filter.toLowerCase()))) {
+                    uniqueCourses.add(courseKey);
+
+                    const div = document.createElement('div');
+                    const course = document.createElement('span');
+                    course.textContent = `(${item.Subject} ${item.Number}) `;
+                    const title = document.createElement('span');
+                    title.textContent = `${item.Title} `;
+                    const info = document.createElement('button');
+                    info.textContent = 'More Info';
+                    info.addEventListener('click', function() {
+                        localStorage.setItem('index', courseKey);
+                        // alert('Index stored in local storage: ' + item.Title);
+                        window.location.href = 'subpage2.html';
+                    });
+                    div.appendChild(title);
+                    div.appendChild(course);
+                    div.appendChild(info);
+                    courseContainer.appendChild(div);
+                }
+            });
+        }
+
+        // Filter event listener
+        document.getElementById('courseFilter').addEventListener('input', function() {
+            displayCourses(this.value);
+        });
+
+        // Clear filter button
+        document.getElementById('clearFilter').addEventListener('click', function() {
+            document.getElementById('courseFilter').value = '';
+            displayCourses('');
+        });
+    </script>
+</body>
+</html>
