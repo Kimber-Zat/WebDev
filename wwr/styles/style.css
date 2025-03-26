@@ -288,6 +288,7 @@ padding-left: 90px; /* same size as the label elements */}
 
 /* FAQ Page */
 .faq-header {
+    margin: 10px;
     position: relative;
     display: flex;
     justify-content: center;
