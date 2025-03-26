@@ -273,11 +273,6 @@ height: 5em;}
 /* Align buttons with the text fields */
 padding-left: 90px; /* same size as the label elements */}
 
-button {
-    /* This extra margin represent roughly the same space as the space
-        between the labels and their text fields */
-margin-left: 0.5em;}
-
 #feedback {
     background-color: antiquewhite;
     position: absolute;
@@ -291,27 +286,50 @@ margin-left: 0.5em;}
 .moveDown {
     margin-top: 3em;}
 
+/* FAQ Page */
+.faq-header {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 105px; /* should match your image height */}
+  
+.faq-header h1 {
+    z-index: 1;
+    margin: 0;}
+
+.question-image {
+    background-image: url("../images/question-mark.png");
+    background-repeat: repeat;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 105px;
+    opacity: 0.1;
+    object-fit: cover;}
+
 .accordion {
-    background-color: #eee;
-    color: #444;
+    background-color: #7e6551;
+    color: #1a0f06;
     cursor: pointer;
     padding: 18px;
-    width: 100%;
-    text-align: left;
+    width: 90%;
+    text-align: center;
+    font-size: medium;
     border: none;
     outline: none;
-    transition: 0.4s;
-    }
-    
-    /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
-    .active, .accordion:hover {
-    background-color: #ccc;
-    }
-    
-    /* Style the accordion panel. Note: hidden by default */
-    .panel {
+    transition: 0.4s;}
+
+.active, .accordion:hover {
+    background-color: #a0836c;
+    font-weight: bold;}
+
+.panel {
     padding: 0 18px;
-    background-color: white;
+    width: 86%;
+    background-color: #cbab91;
     display: none;
     overflow: hidden;
-    }
+    align-items: center;
+    margin: auto;}

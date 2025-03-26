@@ -23,7 +23,7 @@
                 .then(data => {
                     const item = data[storedIndex];
                     if (item) {
-                        document.getElementById('jsonData').textContent = `Subject: ${item.Subject}, Title: ${item.Title}`;
+                        document.getElementById('jsonData').textContent = `Title: ${item.Title}, Subject: ${item.Subject}, Number: ${item.Number}, Section: ${item.Section}`;
                     } else {
                         document.getElementById('jsonData').textContent = 'No data found for the stored index.';
                     }

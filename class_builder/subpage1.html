@@ -21,7 +21,7 @@
         document.getElementById('storeIndexButton').addEventListener('click', function() {
             const index = 1; // Example index storage
             localStorage.setItem('index', index);
-            alert('Index stored in local storage: ' + index);
+            // alert('Index stored in local storage: ' + index);
         });
 
         let courseData = []; // Store data globally for filtering
@@ -35,7 +35,7 @@
                     // Sort by Subject then Number
                     entries.sort((a, b) => {
                         if (a[1].Subject === b[1].Subject) {
-                        return a[1].Number.localeCompare(b[1].Number);
+                        return a[1].Number - b[1].Number;
                         }
                         return a[1].Subject.localeCompare(b[1].Subject);
                     });
