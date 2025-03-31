@@ -1,0 +1,84 @@
+#jsonData {
+    margin-top: 20px; /* Add some space below the header */
+    font-size: 1.2em; /* Optional: Adjust font size */
+}
+
+main {
+    display: grid; /* Use flexbox to align items horizontally */
+    grid-template-columns: 1fr 1fr; /* Two equal columns */
+    grid-template-rows: 50px 1fr;
+    gap: 20px; /* Add spacing between the map and the text */
+}
+
+.course-info-header {
+    grid-column: 1 / 2;
+    grid-row: 1 / 2; /* Span the first row */
+    font-size: 1.5em; /* Increase font size for the header */
+    margin-bottom: 10px; /* Add space below the header */
+    color: #333; /* Optional: Change text color */
+}
+
+#sectionsContainer {
+    grid-column: 1 / 2;
+    grid-row: 2 / 3;
+    justify-self: start;  /* Align horizontally to the left */
+    align-self: Start;      /* Align vertically to the bottom */
+}
+
+#sectionsContainer div {
+    grid-column: 1 / 2;
+    grid-row: 2 / 3;
+    justify-self: center;
+    align-self: center;
+    margin-bottom: 10px; /* Add spacing between rows */
+    padding: 10px; /* Add padding inside each row */
+    border: 1px solid #ddd; /* Optional: Add a border for better visibility */
+    border-radius: 5px; /* Optional: Add rounded corners */
+    background-color: #f9f9f9; /* Optional: Add a light background color */
+    align-self: left;
+}
+
+#sectionsContainer.scrollable-list {
+    grid-column: 1 / 2;
+    grid-row: 2 / 3;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+#sectionsContainer span {
+    grid-column: 1 / 2;
+    grid-row: 2 / 3;
+    margin-right: 15px; /* Add spacing between individual items */
+    flex: 1; /* Ensure items take equal space */
+}
+
+#map-container {
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
+    margin-top: 20px; /* Add space between the text and the map */
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto; /* Center the map */
+}
+
+.campus-map {
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
+    justify-self: center;
+    align-self: center;
+    margin: 0 0 10px 10px;
+    width: 331px;
+    height: 549px;
+    margin: 0; /* No extra margins needed */
+    display: absolute; /* Position the map absolutely within the container */
+}
+
+.map-dot {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: red;
+    border-radius: 50%;
+    cursor: pointer; /* Optional: Make the marker clickable */
+}

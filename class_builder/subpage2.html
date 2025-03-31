@@ -1,37 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Class Information</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Class Information</title>
+  <link rel="stylesheet" type="text/css" href="styles/style.css">
 </head>
 <body>
+  <div id="content">
     <nav>
-        <a href="index.html">Home</a>
-        <a href="subpage1.html">Class Search</a>
+      <a href="index.html">Home</a>
+      <a href="subpage1.html">Class Search</a>
     </nav>
-    <p id="storedIndex"></p>
-    <p id="jsonData"></p>
-
-    <script>
-        const storedIndex = localStorage.getItem('index');
-        if (storedIndex !== null) {
-            document.getElementById('storedIndex').textContent = 'Stored index: ' + storedIndex;
-
-            fetch('data2.json')
-                .then(response => response.json())
-                .then(data => {
-                    const item = data[storedIndex];
-                    if (item) {
-                        document.getElementById('jsonData').textContent = `Title: ${item.Title}, Subject: ${item.Subject}, Number: ${item.Number}, Section: ${item.Section}`;
-                    } else {
-                        document.getElementById('jsonData').textContent = 'No data found for the stored index.';
-                    }
-                })
-                .catch(error => console.error('Error loading JSON data:', error));
-        } else {
-            document.getElementById('storedIndex').textContent = 'No index stored in local storage.';
-        }
-    </script>
+    <h1>Class Information</h1>
+    <main>
+      <p id="jsonData"></p>
+      <div id="sectionsContainer"></div>
+      <div id="map-container">
+        <img class="campus-map" src="images/byui-map.png" alt="BYU-I Map">
+      </div>
+    </main>
+  </div>
+  <script>
+    // Define the coordinates outside the fetch callback for clarity.
+    
+    // Helper function to create an element with text and an optional class.
+    function createElement(type, text, className) {
+      const element = document.createElement(type);
+      if (text) element.textContent = text;
+      if (className) element.classList.add(className);
+      return element;
+    }
+    
+    const storedIndex = localStorage.getItem('index');
+    const jsonDataElement = document.getElementById('jsonData');
+    // Define the original dimensions of your map image.
+    const originalMapWidth = 331;
+    const originalMapHeight = 549;
+    
+    const locationCoordinates = {
+      "Agriculture Engineering (AGM)":        { x: 73, y: 410 },
+      "Austin (AUS)":                         { x: 54, y: 308 },
+      "Benson (BEN)":                         { x: 74, y: 320 },
+      "Clarke (CLK)":                         { x: 94, y: 84 },
+      "Engineering Technology (ETC)":         { x: 73, y: 450 },
+      "Hart (HRT)":                           { x: 50, y: 120 },
+      "Hinckley (HIN)":                       { x: 122, y: 315 },
+      "Kimball (KIM)":                        { x: 97.5, y: 247 },
+      "Manwaring Center (MC)":                { x: 80, y: 177 },
+      "McKay Library (MCK)":                  { x: 80, y: 120 },
+      "Ricks (RKS)":                          { x: 106.5, y: 368 },
+      "Romney (ROM)":                         { x: 72, y: 84 },
+      "Science & Technology Center (STC)":    { x: 50, y: 378 },
+      "Smith (SMI)":                          { x: 98, y: 137 },
+      "Snow (SNO)":                           { x: 65, y: 22 },
+      "Spori (SPO)":                          { x: 84, y: 50 },
+      "Stadium":                              { x: 35, y: 45 },
+      "Taylor (TAY)":                         { x: 82, y: 247 },
+      "University Communications (UC)":       { x: 130, y: 240 },
+      "Visual Arts Studio (VAS)":             { x: 95, y: 51 }
+    };
+    
+    if (storedIndex !== null) {
+      fetch('data2.json')
+      .then(response => response.json())
+      .then(data => {
+        const item = data[storedIndex];
+        if (item) {
+          // Update main course info.
+          jsonDataElement.textContent = `Title: ${item.Title} --- Course Code: ${item.Subject} ${item.Number}`;
+          jsonDataElement.classList.add('course-info-header');
+          
+          // Process each section.
+          item.Sections.forEach(sectionData => {
+            // Create and append section details.
+            const sectionDiv = document.createElement('div');
+              sectionDiv.appendChild(createElement('span', sectionData.Section));
+              sectionDiv.appendChild(createElement('span', sectionData.Instructor));
+              sectionDiv.appendChild(createElement('span', sectionData.Time));
+              sectionDiv.appendChild(createElement('span', sectionData.Location));
+              document.getElementById('sectionsContainer').appendChild(sectionDiv);
+              
+              // Create map dot if coordinates exist.
+              const coordinates = locationCoordinates[sectionData.Location];
+              if (coordinates) {
+                const dot = document.createElement('div');
+                dot.className = 'map-dot';
+                dot.style.left = `${(coordinates.x / originalMapWidth) * 100}%`;
+                dot.style.top = `${(coordinates.y / originalMapHeight) * 100}%`;
+                dot.title = `Building: ${sectionData.Location}`;
+                document.getElementById('map-container').appendChild(dot);
+              }
+            });
+            // If more than 10 sections, add a scrollable class to the container.
+            if (item.Sections.length > 10) {
+              document.getElementById('sectionsContainer').classList.add('scrollable-list');
+            }
+          } else {
+            jsonDataElement.textContent = 'No data found for the stored index.';
+          }
+        })
+        .catch(error => {
+          console.error('Error loading JSON data:', error);
+          jsonDataElement.textContent = 'Error loading data.';
+        });
+      } else {
+      jsonDataElement.textContent = 'No index stored in local storage.';
+    }
+  </script>
+    <p class="warning-text">Please do not resize page, dots will not stay correctly on map</p>
+<footer>
+  <p>Created: 2025 Kimber Zatylny</p>
+</footer>
 </body>
 </html>
