@@ -22,95 +22,126 @@
     </main>
   </div>
   <script>
-    // Define the coordinates outside the fetch callback for clarity.
-    
-    // Helper function to create an element with text and an optional class.
     function createElement(type, text, className) {
       const element = document.createElement(type);
       if (text) element.textContent = text;
       if (className) element.classList.add(className);
       return element;
     }
-    
+
     const storedIndex = localStorage.getItem('index');
     const jsonDataElement = document.getElementById('jsonData');
-    // Define the original dimensions of your map image.
+    const sectionsContainer = document.getElementById('sectionsContainer');
+    const mapContainer = document.getElementById('map-container');
+    const mapImage = document.querySelector('.campus-map');
+
     const originalMapWidth = 331;
     const originalMapHeight = 549;
-    
+
     const locationCoordinates = {
-      "Agriculture Engineering (AGM)":        { x: 73, y: 410 },
-      "Austin (AUS)":                         { x: 54, y: 308 },
-      "Benson (BEN)":                         { x: 74, y: 320 },
-      "Clarke (CLK)":                         { x: 94, y: 84 },
-      "Engineering Technology (ETC)":         { x: 73, y: 450 },
-      "Hart (HRT)":                           { x: 50, y: 120 },
-      "Hinckley (HIN)":                       { x: 122, y: 315 },
-      "Kimball (KIM)":                        { x: 97.5, y: 247 },
-      "Manwaring Center (MC)":                { x: 80, y: 177 },
-      "McKay Library (MCK)":                  { x: 80, y: 120 },
-      "Ricks (RKS)":                          { x: 106.5, y: 368 },
-      "Romney (ROM)":                         { x: 72, y: 84 },
-      "Science & Technology Center (STC)":    { x: 50, y: 378 },
-      "Smith (SMI)":                          { x: 98, y: 137 },
-      "Snow (SNO)":                           { x: 65, y: 22 },
-      "Spori (SPO)":                          { x: 84, y: 50 },
-      "Stadium":                              { x: 35, y: 45 },
-      "Taylor (TAY)":                         { x: 82, y: 247 },
-      "University Communications (UC)":       { x: 130, y: 240 },
-      "Visual Arts Studio (VAS)":             { x: 95, y: 51 }
+      "104 Ceramics Classroom":         { x: 206, y: 51 },
+      "101 Sculpture Classroom":        { x: 206, y: 51 },
+      "Ag Engineering Bldg":            { x: 156, y: 455 },
+      "Ag Mechanics Shop":              { x: 156, y: 455 },
+      "Austin":                         { x: 115, y: 310 },
+      "Barrus Concert Hall":            { x: 140, y: 23 },
+      "Benson":                         { x: 160, y: 340 },
+      "BEN":                            { x: 160, y: 340 },
+      "Clarke":                         { x: 205, y: 85 },
+      "Court":                          { x: 90, y: 160 },
+      "ETC":                            { x: 157, y: 410 },
+      "Hart":                           { x: 104, y: 120 },
+      "Hinckley":                       { x: 265, y: 315 },
+      "Kimball":                        { x: 213, y: 250 },
+      "MC":                             { x: 170, y: 170 },
+      "McKay":                          { x: 178, y: 123 },
+      "Ricks":                          { x: 232, y: 370 },
+      "Romney":                         { x: 157, y: 85 },
+      "STC":                            { x: 108, y: 380 },
+      "Smith":                          { x: 213, y: 140 },
+      "Snow":                           { x: 140, y: 23 },
+      "Spori":                          { x: 182, y: 50 },
+      "Stadium Studio":                 { x: 73, y: 46 },
+      "Taylor":                         { x: 180, y: 250 },
+      "Taylor Chapel":                  { x: 180, y: 250 },
+      "University Comm Bldg":           { x: 280, y: 240 }
     };
-    
-    if (storedIndex !== null) {
-      fetch('data2.json')
-      .then(response => response.json())
-      .then(data => {
-        const item = data[storedIndex];
-        if (item) {
-          // Update main course info.
-          jsonDataElement.textContent = `Title: ${item.Title} --- Course Code: ${item.Subject} ${item.Number}`;
+
+    if (!storedIndex) {
+      jsonDataElement.textContent = 'No class selected. Please return to the search page.';
+    } else {
+      fetch('data3.json')
+        .then(response => response.json())
+        .then(data => {
+          const item = data[storedIndex];
+          if (!item) {
+            jsonDataElement.textContent = 'Class not found. Please return to the search page.';
+            return;
+          }
+
+          jsonDataElement.textContent = `Title: ${item.Title} — Course Code: ${item.Course}`;
           jsonDataElement.classList.add('course-info-header');
-          
-          // Process each section.
+
+          // ✅ Display section info in the container
           item.Sections.forEach(sectionData => {
-            // Create and append section details.
             const sectionDiv = document.createElement('div');
-              sectionDiv.appendChild(createElement('span', sectionData.Section));
-              sectionDiv.appendChild(createElement('span', sectionData.Instructor));
-              sectionDiv.appendChild(createElement('span', sectionData.Time));
-              sectionDiv.appendChild(createElement('span', sectionData.Location));
-              document.getElementById('sectionsContainer').appendChild(sectionDiv);
-              
-              // Create map dot if coordinates exist.
-              const coordinates = locationCoordinates[sectionData.Location];
+            sectionDiv.appendChild(createElement('span', sectionData.Section));
+            sectionDiv.appendChild(createElement('span', sectionData.Instructor));
+            sectionDiv.appendChild(createElement('span', sectionData.Time));
+            sectionDiv.appendChild(createElement('span', sectionData.Location));
+            sectionsContainer.appendChild(sectionDiv);
+          });
+
+          // ✅ Handle large lists with scroll
+          if (item.Sections.length > 10) {
+            sectionsContainer.classList.add('scrollable-list');
+          }
+
+          // ✅ Render building dots responsively
+          const mapImage = document.querySelector('.campus-map');
+
+          function renderDots(sections) {
+            const mapWidth = mapImage.clientWidth;
+            const mapHeight = mapImage.clientHeight;
+
+            sections.forEach(sectionData => {
+              const buildingOnly = sectionData.Location.split(/\s\d/)[0].trim();
+              const coordinates = locationCoordinates[buildingOnly];
+
               if (coordinates) {
                 const dot = document.createElement('div');
                 dot.className = 'map-dot';
-                dot.style.left = `${(coordinates.x / originalMapWidth) * 100}%`;
-                dot.style.top = `${(coordinates.y / originalMapHeight) * 100}%`;
-                dot.title = `Building: ${sectionData.Location}`;
-                document.getElementById('map-container').appendChild(dot);
+                dot.style.left = `${(coordinates.x / originalMapWidth) * mapWidth}px`;
+                dot.style.top = `${(coordinates.y / originalMapHeight) * mapHeight}px`;
+                dot.title = `Building: ${buildingOnly}`;
+                mapContainer.appendChild(dot);
               }
             });
-            // If more than 10 sections, add a scrollable class to the container.
-            if (item.Sections.length > 10) {
-              document.getElementById('sectionsContainer').classList.add('scrollable-list');
-            }
-          } else {
-            jsonDataElement.textContent = 'No data found for the stored index.';
           }
+
+          mapImage.addEventListener('load', () => {
+            renderDots(item.Sections);
+          });
+
+          if (mapImage.complete) {
+            renderDots(item.Sections);
+          }
+
+          window.addEventListener('resize', () => {
+            document.querySelectorAll('.map-dot').forEach(dot => dot.remove());
+            renderDots(item.Sections);
+          });
         })
         .catch(error => {
           console.error('Error loading JSON data:', error);
           jsonDataElement.textContent = 'Error loading data.';
         });
-      } else {
-      jsonDataElement.textContent = 'No index stored in local storage.';
     }
   </script>
-    <p class="warning-text">Please do not resize page, dots will not stay correctly on map</p>
-<footer>
-  <p>Created: 2025 Kimber Zatylny</p>
-</footer>
+
+  <p class="warning-text">Dots now follow zoom level — if they look off, try refreshing!</p>
+  <footer>
+    <p>Created: 2025 Kimber Zatylny</p>
+  </footer>
 </body>
 </html>

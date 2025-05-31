@@ -1,3 +1,6 @@
+-- -----------------------------------------------------
+-- Schema Setup
+-- -----------------------------------------------------
 DROP SCHEMA IF EXISTS byui_degrees;
 CREATE SCHEMA IF NOT EXISTS byui_degrees;
 USE byui_degrees;
@@ -8,11 +11,9 @@ USE byui_degrees;
 DROP TABLE IF EXISTS courses;
 CREATE TABLE courses (
     course_id INT AUTO_INCREMENT PRIMARY KEY,
-    subject VARCHAR(10) NOT NULL,
-    number VARCHAR(5) NOT NULL,
+    course_code VARCHAR(10) NOT NULL UNIQUE,
     title VARCHAR(255) NOT NULL,
-    credits INT NOT NULL,
-    CONSTRAINT unique_course UNIQUE (subject, number) -- Prevents duplicate courses
+    credits INT NOT NULL
 )
 ENGINE = InnoDB;
 
@@ -57,10 +58,14 @@ CREATE TABLE course_sections (
     section_id INT AUTO_INCREMENT PRIMARY KEY,
     course_id INT NOT NULL,
     section VARCHAR(10) NOT NULL,
-    schedule VARCHAR(50) NOT NULL,
     instructor_id INT NOT NULL,
     location_id INT NOT NULL,
     semester_id INT NOT NULL,
+    days VARCHAR(10), -- e.g., 'MW', 'TTh'
+    start_time TIME,
+    end_time TIME,
+    seats_taken INT DEFAULT 0,
+    seats_capacity INT,
     FOREIGN KEY (course_id) REFERENCES courses(course_id) ON DELETE CASCADE,
     FOREIGN KEY (instructor_id) REFERENCES instructors(instructor_id) ON DELETE CASCADE,
     FOREIGN KEY (location_id) REFERENCES locations(location_id) ON DELETE CASCADE,
@@ -71,7 +76,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Indexes for Performance
 -- -----------------------------------------------------
-CREATE INDEX idx_subject ON courses(subject);
+CREATE INDEX idx_course_code ON courses(course_code);
 CREATE INDEX idx_title ON courses(title);
 CREATE INDEX idx_instructor_name ON instructors(name);
-CREATE INDEX idx_schedule ON course_sections(schedule);
+CREATE INDEX idx_building ON locations(building);
+CREATE INDEX idx_schedule ON course_sections(days, start_time, end_time);

@@ -82,3 +82,53 @@ main {
     border-radius: 50%;
     cursor: pointer; /* Optional: Make the marker clickable */
 }
+
+/* ----------------------------------------
+   ✅ MOBILE RESPONSIVENESS (Below 768px)
+----------------------------------------- */
+@media (max-width: 768px) {
+
+  main {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .course-info-header {
+    font-size: 1.3em;
+    text-align: center;
+  }
+
+  #sectionsContainer {
+    order: 2;
+    width: 100%;
+  }
+
+  #sectionsContainer div {
+    margin-bottom: 10px;
+    padding: 10px;
+    font-size: 0.95em;
+  }
+
+  #sectionsContainer.scrollable-list {
+    max-height: 300px;
+  }
+
+  #map-container {
+    order: 1;
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+  }
+
+  .campus-map {
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+  }
+
+  .map-dot {
+    width: 10px;
+    height: 10px;
+  }
+}

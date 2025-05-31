@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Class Information</title>
+  <link rel="stylesheet" type="text/css" href="styles/style.css">
+</head>
+<body>
+  <div id="content">
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="subpage1.html">Class Search</a>
+    </nav>
+    <h1>Class Information</h1>
+    <main>
+      <p id="jsonData"></p>
+      <div id="sectionsContainer"></div>
+      <div id="map-container">
+        <img class="campus-map" src="images/byui-map.png" alt="BYU-I Map">
+      </div>
+    </main>
+  </div>
+  <script>
+    function createElement(type, text, className) {
+      const element = document.createElement(type);
+      if (text) element.textContent = text;
+      if (className) element.classList.add(className);
+      return element;
+    }
+
+    const storedIndex = localStorage.getItem('index');
+    const jsonDataElement = document.getElementById('jsonData');
+    const sectionsContainer = document.getElementById('sectionsContainer');
+    const mapContainer = document.getElementById('map-container');
+    const mapImage = document.querySelector('.campus-map');
+
+    const originalMapWidth = 331;
+    const originalMapHeight = 549;
+
+    const locationCoordinates = {
+      "104 Ceramics Classroom":         { x: 206, y: 51 },
+      "101 Sculpture Classroom":        { x: 206, y: 51 },
+      "Ag Engineering Bldg":            { x: 156, y: 455 },
+      "Ag Mechanics Shop":              { x: 156, y: 455 },
+      "Austin":                         { x: 115, y: 310 },
+      "Barrus Concert Hall":            { x: 140, y: 23 },
+      "Benson":                         { x: 160, y: 340 },
+      "BEN":                            { x: 160, y: 340 },
+      "Clarke":                         { x: 205, y: 85 },
+      "Court":                          { x: 90, y: 160 },
+      "ETC":                            { x: 157, y: 410 },
+      "Hart":                           { x: 104, y: 120 },
+      "Hinckley":                       { x: 265, y: 315 },
+      "Kimball":                        { x: 213, y: 250 },
+      "MC":                             { x: 170, y: 170 },
+      "McKay":                          { x: 178, y: 123 },
+      "Ricks":                          { x: 232, y: 370 },
+      "Romney":                         { x: 157, y: 85 },
+      "STC":                            { x: 108, y: 380 },
+      "Smith":                          { x: 213, y: 140 },
+      "Snow":                           { x: 140, y: 23 },
+      "Spori":                          { x: 182, y: 50 },
+      "Stadium Studio":                 { x: 73, y: 46 },
+      "Taylor":                         { x: 180, y: 250 },
+      "Taylor Chapel":                  { x: 180, y: 250 },
+      "University Comm Bldg":           { x: 280, y: 240 }
+    };
+
+    if (!storedIndex) {
+      jsonDataElement.textContent = 'No class selected. Please return to the search page.';
+    } else {
+      fetch('data3.json')
+        .then(response => response.json())
+        .then(data => {
+          const item = data[storedIndex];
+          if (!item) {
+            jsonDataElement.textContent = 'Class not found. Please return to the search page.';
+            return;
+          }
+
+          jsonDataElement.textContent = `Title: ${item.Title} — Course Code: ${item.Course}`;
+          jsonDataElement.classList.add('course-info-header');
+
+          // Wait for map image to load before placing dots
+          mapImage.addEventListener('load', () => {
+            const mapWidth = mapImage.clientWidth;
+            const mapHeight = mapImage.clientHeight;
+
+            item.Sections.forEach(sectionData => {
+              const sectionDiv = document.createElement('div');
+              sectionDiv.appendChild(createElement('span', sectionData.Section));
+              sectionDiv.appendChild(createElement('span', sectionData.Instructor));
+              sectionDiv.appendChild(createElement('span', sectionData.Time));
+              sectionDiv.appendChild(createElement('span', sectionData.Location));
+              sectionsContainer.appendChild(sectionDiv);
+
+              const buildingOnly = sectionData.Location.split(/\s\d/)[0].trim();
+              const coordinates = locationCoordinates[buildingOnly];
+
+              if (coordinates) {
+                const dot = document.createElement('div');
+                dot.className = 'map-dot';
+                dot.style.position = 'absolute';
+                dot.style.left = `${(coordinates.x / originalMapWidth) * mapWidth}px`;
+                dot.style.top = `${(coordinates.y / originalMapHeight) * mapHeight}px`;
+                dot.title = `Building: ${buildingOnly}`;
+                mapContainer.appendChild(dot);
+              }
+            });
+
+            if (item.Sections.length > 10) {
+              sectionsContainer.classList.add('scrollable-list');
+            }
+          });
+
+          // If image is already loaded (cached), fire manually
+          if (mapImage.complete) {
+            mapImage.dispatchEvent(new Event('load'));
+          }
+        })
+        .catch(error => {
+          console.error('Error loading JSON data:', error);
+          jsonDataElement.textContent = 'Error loading data.';
+        });
+    }
+  </script>
+
+  <p class="warning-text">Dots now follow zoom level — if they look off, try refreshing!</p>
+  <footer>
+    <p>Created: 2025 Kimber Zatylny</p>
+  </footer>
+</body>
+</html>
